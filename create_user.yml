@@ -3,6 +3,7 @@
   hosts: all
   connection: community.aws.aws_ssm  # Specify SSM connection type
   become: true
+  gather_facts: False
   tasks:
   - name: Creating user john
     user: 

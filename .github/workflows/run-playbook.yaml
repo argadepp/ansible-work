@@ -33,4 +33,4 @@ jobs:
 
     - name: Run Ansible Playbook
       run: |
-        ansible-inventory -i inventory/aws_ec2.yml --list
+        ansible-inventory -i inventory/aws_ec2.yaml --list
