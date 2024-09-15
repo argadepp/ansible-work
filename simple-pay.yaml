@@ -1,0 +1,14 @@
+---
+- name: Test AWS SSM Connection
+  hosts: all
+  gather_facts: no
+  connection: community.aws.aws_ssm
+
+  tasks:
+    - name: Test connectivity
+      command: uptime
+      register: result
+
+    - name: Print uptime
+      debug:
+        msg: "{{ result.stdout }}"
