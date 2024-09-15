@@ -8,7 +8,7 @@ keyed_groups:
 hostnames:
   - tag:Name  # Use the Name tag for the hostname
 compose:
-  ansible_host: public_ip_address
+  ansible_host: instance_id 
 filters:
   tag:Environment: dev  # Filter by a specific tag, e.g., Environment=production
 strict: False  # Allow inventory to proceed even if no hosts are found

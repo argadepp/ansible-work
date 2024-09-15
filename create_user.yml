@@ -1,6 +1,7 @@
 ---
 - name: This is playbook to create user
   hosts: all
+  connection: community.aws.aws_ssm  # Specify SSM connection type
   become: true
   tasks:
   - name: Creating user john
