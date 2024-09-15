@@ -33,4 +33,4 @@ jobs:
 
     - name: Run Ansible Playbook
       run: |
-        ansible-inventory -i inventory/aws_ec2.yaml --list
+        ANSIBLE_DEBUG=1 ansible-playbook -i inventory/aws_ec2.yaml create_user.yml  -vvv
