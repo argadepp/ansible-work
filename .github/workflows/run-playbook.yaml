@@ -1,5 +1,7 @@
 name: Run Ansible Playbook
-
+permissions:
+  id-token: write
+  contents: read
 on:
   push:
     branches:
