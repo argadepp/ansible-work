@@ -6,19 +6,19 @@ resource "tls_private_key" "example" {
 
 # Save private key to a local file
 resource "local_file" "private_key" {
-  filename = "/home/pratik/.ssh/ansible"
+  filename = var.filepath
   content  = tls_private_key.example.private_key_pem
 }
 
 # Create EC2 Key Pair
 resource "aws_key_pair" "generated_key" {
-  key_name   = "terraform-key"
+  key_name   = var.keyname
   public_key = tls_private_key.example.public_key_openssh
 }
 
 # Create EC2 Instance
 resource "aws_instance" "example" {
-  ami           = data.aws_ami.ubuntu.id # Change to your desired AMI (Ubuntu/Debian/CentOS)
+  ami           = var.ami # Change to your desired AMI (Ubuntu/Debian/CentOS)
   instance_type = var.instance_type
   key_name      = aws_key_pair.generated_key.key_name
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name

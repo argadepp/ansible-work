@@ -15,3 +15,15 @@ variable "instance_type" {
 variable "name" {
   description = "Instance name tag"
 }
+
+variable "ami" {
+  
+}
+
+variable "filepath" {
+  
+}
+
+variable "keyname" {
+  
+}
