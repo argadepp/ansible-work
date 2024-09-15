@@ -9,4 +9,6 @@ hostnames:
 compose:
   ansible_host: public_ip_address
 filters:
-  tag:Project: Texa  # Filter by a specific tag, e.g., Environment=production
+  tag:Environment: dev  # Filter by a specific tag, e.g., Environment=production
+strict: False  # Allow inventory to proceed even if no hosts are found
+debug: True    # Enable debug output to help troubleshoot issues
