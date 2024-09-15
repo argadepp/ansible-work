@@ -42,4 +42,4 @@ jobs:
 
     - name: Run Ansible Playbook
       run: |
-        ANSIBLE_DEBUG=1 ansible-playbook -i inventory/aws_ec2.yaml simple-pay.yaml  -vvv
+        ANSIBLE_DEBUG=1 ansible-playbook -e inventory/comman.yaml -i inventory/aws_ec2.yaml simple-pay.yaml  -vvv
