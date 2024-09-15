@@ -9,8 +9,8 @@ inputs = {
   # Map of tags
   tags = {
     Environment = "dev"
-    Owner       = "team-flash"
-    Project     = "Fus-c"
+    Owner       = "team-marvel"
+    Project     = "Texa"
     CostCenter  = "CC1234"
   }
 }
