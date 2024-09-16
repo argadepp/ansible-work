@@ -1,0 +1,7 @@
+---
+- name: This is playbook to create user
+  hosts: all
+  become: true
+  gather_facts: true
+  roles: 
+    - setup-apache
