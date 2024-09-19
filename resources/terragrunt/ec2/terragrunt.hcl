@@ -1,4 +1,3 @@
-
 dependency "iam_role" {
   config_path = "${get_repo_root()}/resources/terragrunt/ssm_role"
 }
@@ -14,7 +13,6 @@ inputs = {
   filepath        = "/home/pratik/.ssh/salarypay"
   keyname         = "salarypay"
   aws_ssm_profile = dependency.iam_role.outputs.iam_instance_profile_name
-  # Map of tags
   tags = {
     Environment = "dev"
     Owner       = "team-marvel"
