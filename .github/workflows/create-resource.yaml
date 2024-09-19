@@ -28,7 +28,11 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0  # Change to your required version
-
+      - name: Configure AWS credentials from Test account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::637423592422:role/git-action-deploy-role
+          aws-region: ap-south-1 
       # Install Terragrunt
       - name: Install Terragrunt
         run: |
