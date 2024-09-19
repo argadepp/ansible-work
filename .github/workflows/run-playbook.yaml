@@ -2,10 +2,9 @@ name: Run Ansible Playbook
 permissions:
   id-token: write
   contents: read
+
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   ansible:
@@ -42,4 +41,4 @@ jobs:
 
     - name: Run Ansible Playbook
       run: |
-        ansible-playbook -i inventory/aws_ec2.yaml simple-pay.yaml
+        ansible-playbook -i inventory/aws_ec2.yaml playbook/simple-pay.yaml

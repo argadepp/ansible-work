@@ -15,7 +15,6 @@ resource "aws_iam_role" "ec2_ssm_role" {
       }
     ]
   })
-  tags = merge({Name= var.role_name},var.tags)
 }
 
 # Attach the AmazonSSMManagedInstanceCore policy to the IAM Role

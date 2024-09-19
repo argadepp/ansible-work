@@ -1,27 +1,15 @@
 ---
-  - name: Creating user john
-    user: 
-      name: john
+# tasks file for setup-apache
+- name: install package
+  yum:
+    name: httpd
+    state: installed
+  when: ansible_os_family == "RedHat"
+  notify: start apache
 
-  - name: Install httpd
-    dnf:
-      name: ['httpd','git','make']
-      state: installed 
-   
-  - name: start apache
-    service:
-      name: httpd
-      state: started
-
-  - name: Clone GitHub repository into /var/www/html
-    ansible.builtin.git:
-      repo: 'https://github.com/alirezatayebinejad/ecommerce-website-html-css.git'  # Replace with your repo URL
-      dest: /var/www/html
-      version: master  # Specify branch if needed
-      force: yes
-      update: yes      
- 
-  - name: Restart service httpd, in all cases
-    ansible.builtin.service:
-      name: httpd
-      state: restarted     
+- name: install apache2
+  apt:
+    name: apache2
+    state: present
+  when: ansible_os_family == "Debian"
+  notify: start apache2

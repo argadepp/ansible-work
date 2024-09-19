@@ -1,0 +1,133 @@
+---
+# Update the package lists and upgrade the system
+- name: Update and upgrade apt packages
+  apt:
+    update_cache: yes
+    upgrade: dist
+  tags: common
+
+# Install some required packages
+- name: Install required packages
+  apt:
+    name: 
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+    state: present
+  tags: common
+# Add Docker GPG key
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  tags: docker
+
+# Add Docker APT repository
+- name: Add Docker repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+  tags: docker
+
+# Install Docker
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: present
+  tags: docker
+
+# Ensure Docker service is running and enabled
+- name: Start and enable Docker service
+  systemd:
+    name: docker
+    enabled: true
+    state: started
+  tags: docker  
+- name: Install MicroK8s
+  snap:
+    name: microk8s
+    state: present
+    classic: yes
+  tags: microk8s
+
+# Add the current user to the MicroK8s group for permissions
+- name: Add user to microk8s group
+  user:
+    name: "pratik"
+    groups: microk8s
+    append: yes
+    state: present
+  tags: microk8s
+
+# Ensure MicroK8s is started
+- name: Enable common MicroK8s add-ons (dns, storage)
+  command: microk8s enable dns storage
+  tags: microk8s
+
+
+- name: Enable metalb
+  command: microk8s enable metallb:192.168.1.200-192.168.1.220
+  tags: microk8s
+
+- name: Enable ingress
+  command: microk8s enable ingress
+  tags: microk8s
+
+- name: Enable hostpath storage
+  command: microk8s enable hostpath-storage
+  tags: microk8s
+
+- name: Enable host access
+  command: microk8s enable host-access:ip=0.0.0.0
+  tags: microk8s  
+
+- name: Check MicroK8s status
+  command: microk8s status
+  register: microk8s_status
+  changed_when: false
+  tags: microk8s
+
+- name: Print MicroK8s status
+  debug:
+    msg: "{{ microk8s_status.stdout }}"
+  tags: microk8s
+
+- name: Get public IP address
+  command: curl -s http://169.254.169.254/latest/meta-data/public-ipv4
+  register: public_ip
+
+- name: Ensure the MicroK8s CSR configuration file is updated
+  lineinfile:
+    path: /var/snap/microk8s/current/certs/csr.conf.template
+    regexp: '^#MOREIPS'
+    insertbefore: '^#MOREIPS'
+    line: "IP.0 = {{ public_ip.stdout }}"
+    create: yes
+
+  notify: Restart MicroK8s
+- name: Generate kubeconfig for MicroK8s
+  command: microk8s config
+  register: kubeconfig
+  changed_when: false
+
+- name: Create .kube directory if it does not exist
+  become: true
+  file:
+    path: /home/{{ ansible_user }}/.kube
+    state: directory
+    mode: '0755'
+- name: Write kubeconfig to file
+  copy:
+    content: "{{ kubeconfig.stdout }}"
+    dest: /home/{{ ansible_user }}/.kube/config
+    mode: '0644'
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  notify: Set kubeconfig permissions
+
+- name: Fetch kubeconfig from remote server to local
+  fetch:
+    src: /home/ssm-user/.kube/config
+    dest: /home/pratik/.kube/config 
+    flat: yes

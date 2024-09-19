@@ -1,0 +1,53 @@
+name: Terragrunt CI
+
+permissions:
+  id-token: write
+  contents: read
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        description: Select the action
+        options:
+          - apply
+          - destroy
+          - refresh 
+
+jobs:
+  terragrunt:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Install Terraform (required by Terragrunt)
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0  # Change to your required version
+
+      # Install Terragrunt
+      - name: Install Terragrunt
+        run: |
+          curl -LO https://github.com/gruntwork-io/terragrunt/releases/download/v0.51.2/terragrunt_linux_amd64
+          sudo install terragrunt_linux_amd64 /usr/local/bin/terragrunt
+          terragrunt --version
+
+      # Run Terragrunt init
+      - name: Run Terragrunt Init
+        run: terragrunt init
+        working-directory: resources/terragrunt
+
+      # Run Terragrunt plan
+      - name: Run Terragrunt Plan
+        run: terragrunt plan
+        working-directory: resources/terragrunt/ec2 # Optional: specify your module directory
+
+      # #Run Terragrunt apply (optional)
+      # #Uncomment the following if you want to run terragrunt apply automatically
+      # - name: Run Terragrunt Apply
+      #   run: terragrunt ${{ inputs.action }} -auto-approve
+      #   working-directory: path/to/your/module # Optional: specify your module directory

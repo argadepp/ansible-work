@@ -22,35 +22,20 @@ resource "aws_instance" "example" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.generated_key.key_name
   iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
-  # User data script to configure the server post-creation
-  # user_data = <<-EOF
-  #   #!/bin/bash
-  #   # Update the package repository and install required packages
-  #   yum update -y  # For Amazon Linux
-  #   apt-get update -y  # For Ubuntu
+  #User data script to configure the server post-creation
+  user_data = <<-EOF
+    #!/bin/bash
+    # Allow password authentication
+    sudo sed -i 's/^PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    sudo systemctl reload sshd
 
-  #   # Set 'PasswordAuthentication yes' in the SSH config file
-  #   if grep -q "^PasswordAuthentication" /etc/ssh/sshd_config; then
-  #       sed -i 's/^PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
-  #   else
-  #       echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
-  #   fi
+    # Create a new user and set password
+    sudo useradd -m -s /bin/bash pratik
+    echo "pratik:pratik" | sudo chpasswd
 
-  #   # Reload the SSH daemon to apply the changes
-  #   systemctl restart sshd
-
-  #   # Create a user with a password
-  #   USERNAME="pratik"
-  #   PASSWORD="pratik"
-  #   useradd $USERNAME
-  #   echo "$USERNAME:$PASSWORD" | chpasswd
-
-  #   # Ensure the user can use sudo without a password
-  #   echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
-  #   # Reload sshd again after sudo and user changes
-  #   systemctl restart sshd
-  # EOF
+    # Add user to sudoers file with NOPASSWD
+    echo "newuser ALL=(ALL) NOPASSWD:ALL" >> sudo etc/sudoers
+  EOF
 
   tags = merge({Name= var.name},var.tags)
 }

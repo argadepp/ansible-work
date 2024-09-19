@@ -1,0 +1,22 @@
+---
+# handlers file for setup-apache
+- name: Restart MicroK8s
+  block:
+    - name: Stop MicroK8s
+      command: microk8s stop
+      ignore_errors: yes
+      register: result
+      until: result.rc == 0
+      retries: 5
+      delay: 3
+    - name: Start MicroK8s
+      command: microk8s start
+      ignore_errors: yes
+      register: result
+      until: result.rc == 0
+      retries: 5
+      delay: 30
+- name: Set kubeconfig permissions
+  file:
+    path: /home/{{ ansible_user }}/.kube/config
+    mode: '0644'      
