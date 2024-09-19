@@ -50,3 +50,7 @@ jobs:
       - name: Run Terragrunt Apply
         run: terragrunt ${{ inputs.action }} -auto-approve
         working-directory: ./resources/terragrunt/ssm_role # Optional: specify your module directory
+
+      - name: Run Terragrunt EC2 Apply
+        run: terragrunt ${{ inputs.action }} -auto-approve
+        working-directory: ./resources/terragrunt/ec2
