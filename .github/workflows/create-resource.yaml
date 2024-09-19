@@ -45,13 +45,13 @@ jobs:
         run: terragrunt init
         working-directory: resources/terragrunt
 
-      # Run Terragrunt plan
-      - name: Run Terragrunt Plan
-        run: terragrunt plan
-        working-directory: ./resources/terragrunt/ec2 # Optional: specify your module directory
+      # # Run Terragrunt plan
+      # - name: Run Terragrunt Plan
+      #   run: terragrunt plan
+      #   working-directory: ./resources/terragrunt/ec2 # Optional: specify your module directory
 
-      # #Run Terragrunt apply (optional)
-      # #Uncomment the following if you want to run terragrunt apply automatically
-      # - name: Run Terragrunt Apply
-      #   run: terragrunt ${{ inputs.action }} -auto-approve
-      #   working-directory: path/to/your/module # Optional: specify your module directory
+      #Run Terragrunt apply (optional)
+      #Uncomment the following if you want to run terragrunt apply automatically
+      - name: Run Terragrunt Apply
+        run: terragrunt ${{ inputs.action }} -auto-approve
+        working-directory: ./resources/terragrunt/ec2 # Optional: specify your module directory
