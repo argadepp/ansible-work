@@ -41,4 +41,4 @@ jobs:
 
     - name: Run Ansible Playbook
       run: |
-        ansible-playbook -i inventory/aws_ec2.yaml playbook/microk8s-cp.yaml
+        ansible-playbook -i inventory/master.aws_ec2.yaml playbook/microk8s-cp.yaml
