@@ -3,7 +3,7 @@ include {
 }
 
 dependency "iam_role" {
-  config_path = "./../ssm_role" 
+  config_path = "${get_repo_root()}/resources/terragrunt/ssm_role"
 }
 
 inputs = {
