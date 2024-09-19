@@ -3,7 +3,7 @@ include {
 }
 
 dependency "iam_role" {
-  config_path = "./ssm_role"
+  config_path = "../ssm_role"
 }
 
 inputs = {
