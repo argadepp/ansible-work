@@ -1,6 +1,3 @@
-include {
-  path = find_in_parent_folders()
-}
 
 dependency "iam_role" {
   config_path = "${get_repo_root()}/resources/terragrunt/ssm_role"
