@@ -1,7 +1,7 @@
 # Root terragrunt.hcl for shared configuration
 terraform {
   # This specifies the source for the Terraform code, e.g., where to find the modules
-  source = "./../modules//${path_relative_to_include()}"
+  source = "./../modules/${path_relative_to_include()}"
 }
 
 
