@@ -48,7 +48,7 @@ jobs:
       # Run Terragrunt plan
       - name: Run Terragrunt Plan
         run: terragrunt plan
-        working-directory: ./resources/terragrunt/ec2 # Optional: specify your module directory
+        working-directory: ./resources/terragrunt/ssm_role # Optional: specify your module directory
 
       # #Run Terragrunt apply (optional)
       # #Uncomment the following if you want to run terragrunt apply automatically
