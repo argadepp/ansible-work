@@ -49,4 +49,4 @@ jobs:
       #Uncomment the following if you want to run terragrunt apply automatically
       - name: Run Terragrunt Apply
         run: terragrunt ${{ inputs.action }} -auto-approve
-        working-directory: ./resources/terragrunt/ec2 # Optional: specify your module directory
+        working-directory: ./resources/terragrunt/ssm_role # Optional: specify your module directory
