@@ -3,6 +3,10 @@ dependency "iam_role" {
   config_path = "${get_repo_root()}/resources/terragrunt/ssm_role"
 }
 
+terraform {
+  source = "${get_repo_root()}/resources/modules/ec2"
+}
+
 inputs = {
   instance_type   = "t2.medium"
   name            = "master-server"
