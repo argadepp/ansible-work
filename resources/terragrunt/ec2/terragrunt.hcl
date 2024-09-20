@@ -18,5 +18,6 @@ inputs = {
     Owner       = "team-marvel"
     Project     = "Texa"
     CostCenter  = "CC1234"
+    auto-start-stop = "Yes"
   }
 }
