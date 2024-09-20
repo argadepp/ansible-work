@@ -11,7 +11,7 @@ terraform {
 }
 
 inputs = {
-   cron-value = "0 18 * * ? *"
+   cron-value = "0 16 * * ? *"
    targetid = "shutdown"
    lambdaarn = dependency.shutdownlambdaarn.outputs.lambdaarn
    function_name = "ec2_shutdown"

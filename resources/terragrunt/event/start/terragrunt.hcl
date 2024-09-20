@@ -11,7 +11,7 @@ terraform {
 }
 
 inputs = {
-   cron-value = "0 6 * * ? *"
+   cron-value = "30 4 * * ? *"
    targetid = "startup"
    lambdaarn = dependency.startlambdaarn.outputs.lambdaarn
    function_name = "ec2_startup"
