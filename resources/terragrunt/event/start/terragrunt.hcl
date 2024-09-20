@@ -16,4 +16,11 @@ inputs = {
    lambdaarn = dependency.startlambdaarn.outputs.lambdaarn
    function_name = "ec2_startup"
    rulename = "ec2_startup_6am"
+     tags = {
+    Environment = "dev"
+    Owner       = "team-marvel"
+    Project     = "Texa"
+    CostCenter  = "CC1234"
+    auto-start-stop = "Yes"
+  }
 }

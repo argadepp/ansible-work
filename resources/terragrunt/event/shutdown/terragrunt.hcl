@@ -16,4 +16,11 @@ inputs = {
    lambdaarn = dependency.shutdownlambdaarn.outputs.lambdaarn
    function_name = "ec2_shutdown"
    rulename = "ec2_shutdown_8pm"
+    tags = {
+    Environment = "dev"
+    Owner       = "team-marvel"
+    Project     = "Texa"
+    CostCenter  = "CC1234"
+    auto-start-stop = "Yes"
+  }
 }

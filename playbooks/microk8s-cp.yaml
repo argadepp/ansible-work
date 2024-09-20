@@ -4,4 +4,4 @@
   become: true
   gather_facts: false
   roles: 
-    - microk8s-cluster
+    - role/microk8s-cluster

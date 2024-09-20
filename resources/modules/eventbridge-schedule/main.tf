@@ -1,6 +1,7 @@
 resource "aws_cloudwatch_event_rule" "every_day" {
   name                = var.rulename
   schedule_expression = "cron(${var.cron-value})"  
+  tags = merge({Name= var.rulename},var.tags)
 }
 
 resource "aws_cloudwatch_event_target" "lambda_target" {
