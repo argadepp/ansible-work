@@ -1,12 +1,13 @@
 name: Bottlerocket AMI Finder
 
+permissions:
+  id-token: write
+  contents: read
 on:
   workflow_dispatch:
     inputs:
       eks_version:
-        description: 'Kubernetes version for EKS (e.g., 1.22)'
-        required: true
-        default: '1.22'
+        description: Enter the eks version
 
 jobs:
   find_bottlerocket_ami:
