@@ -1,0 +1,46 @@
+name: Bottlerocket AMI Finder
+
+on:
+  workflow_dispatch:
+    inputs:
+      eks_version:
+        description: 'Kubernetes version for EKS (e.g., 1.22)'
+        required: true
+        default: '1.22'
+
+jobs:
+  find_bottlerocket_ami:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::637423592422:role/git-action-deploy-role
+        aws-region: ap-south-1 
+
+    - name: Get EKS Version from input
+      id: eks_version
+      run: echo "EKS_VERSION=${{ github.event.inputs.eks_version }}" >> $GITHUB_ENV
+
+    - name: Fetch Bottlerocket AMI
+      id: fetch_ami
+      run: |
+        # Define the SSM parameter path for Bottlerocket AMI
+        PARAMETER_PATH="/aws/service/bottlerocket/aws-k8s-${EKS_VERSION}/x86_64/latest/image_id"
+
+        # Fetch the latest AMI ID from SSM Parameter Store
+        AMI_ID=$(aws ssm get-parameter --name $PARAMETER_PATH --query 'Parameter.Value' --output text)
+
+        # Fetch more details about the AMI
+        AMI_DETAILS=$(aws ec2 describe-images --image-ids $AMI_ID --query 'Images[0].[ImageId,Name,CreationDate]' --output json)
+
+        echo "AMI_DETAILS=$AMI_DETAILS" >> $GITHUB_ENV
+        echo "Latest Bottlerocket AMI for EKS v${EKS_VERSION}:"
+        echo $AMI_DETAILS
+
+    - name: Output AMI Details
+      run: echo "AMI Details: ${{ env.AMI_DETAILS }}"
