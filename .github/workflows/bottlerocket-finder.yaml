@@ -7,10 +7,11 @@ on:
   workflow_dispatch:
     inputs:
       eks_version:
-        description: Enter the eks version
+        description: Enter eks version
+
 
 jobs:
-  find_bottlerocket_ami:
+  findami:
     runs-on: ubuntu-latest
 
     steps:
@@ -44,4 +45,5 @@ jobs:
         echo $AMI_DETAILS
 
     - name: Output AMI Details
-      run: echo "AMI Details: ${{ env.AMI_DETAILS }}"
+      run: |
+        echo "AMI Details: ${{ env.AMI_DETAILS }}"        
