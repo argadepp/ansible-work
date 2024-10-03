@@ -34,12 +34,12 @@ jobs:
         # Define the SSM parameter path for Bottlerocket AMI
         PARAMETER_PATH="/aws/service/bottlerocket/aws-k8s-${EKS_VERSION}/x86_64/latest/image_id"
 
-        # Fetch the latest AMI ID from SSM Parameter Store
+        AMI_ID=$(aws ssm get-parameter --name $PARAMETER_PATH --query "Parameter.Value" --output text)
+        
         AMI_DETAILS=$(aws ec2 describe-images --image-ids $AMI_ID --query "Images[0].[ImageId,CreationDate,Name]" --output text)
-
-        # Fetch more details about the AMI
-        AMI_DETAILS=$(aws ec2 describe-images --image-ids $AMI_ID --query 'Images[0].[ImageId,CreationDate,Name]' --output json)
-
+        
+        
+        
         AMI_NAME=$(echo $AMI_DETAILS | awk '{print $3}')
         VERSION=$(echo $AMI_NAME | grep -oP '(v[0-9]+\.[0-9]+\.[0-9]+)')
         CREATION_DATE=$(echo $AMI_DETAILS | awk '{print $2}')
