@@ -40,10 +40,10 @@ jobs:
         # Fetch more details about the AMI
         AMI_DETAILS=$(aws ec2 describe-images --image-ids $AMI_ID --query 'Images[0].[ImageId,Name,CreationDate]' --output json)
 
-        echo "AMI_DETAILS=$AMI_DETAILS" >> $GITHUB_ENV
-        echo "Latest Bottlerocket AMI for EKS v${EKS_VERSION}:"
-        echo $AMI_DETAILS
-
-    - name: Output AMI Details
-      run: |
-        echo "AMI Details: ${{ env.AMI_DETAILS }}"        
+        AMI_NAME=$(echo $AMI_DETAILS | awk '{print $3}')
+        VERSION=$(echo $AMI_NAME | grep -oP '(v[0-9]+\.[0-9]+\.[0-9]+)')
+        CREATION_DATE=$(echo $AMI_DETAILS | awk '{print $2}')
+        
+        echo "AMI ID: $AMI_ID"
+        echo "Creation Date: $CREATION_DATE"
+        echo "Bottlerocket Version: $VERSION"
