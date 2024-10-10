@@ -22,6 +22,11 @@ resource "aws_instance" "ec2_instance" {
   instance_type = var.instance_type
   key_name      = aws_key_pair.generated_key.key_name
   iam_instance_profile = var.aws_ssm_profile
+
+  root_block_device {
+    volume_size = 20
+
+  }
   #User data script to configure the server post-creation
   user_data = <<-EOF
     #!/bin/bash

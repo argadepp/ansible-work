@@ -14,6 +14,7 @@ inputs = {
   keyname         = "salarypay"
   aws_ssm_profile = dependency.iam_role.outputs.iam_instance_profile_name
   tags = {
+    auto-start-stop = "Yes"
     Environment = "dev"
     Owner       = "team-marvel"
     Project     = "Texa"
