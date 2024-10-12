@@ -1,8 +1,16 @@
 version: 3
-automerge: true
-autodiscover:
-  mode: auto
-delete_source_branch_on_merge: true
-parallel_plan: true
-parallel_apply: true
-abort_on_execution_order_fail: true
+projects:
+  - name: ec2
+    dir: resources/terragrunt/
+    workflow: terragrunt
+    autoplan:
+      when_modified: ["**/*.hcl", "**/*.tf"]
+      enabled: true
+workflows:
+  terragrunt:
+    plan:
+      steps:
+        - run: terragrunt plan
+    apply:
+      steps:
+        - run: terragrunt apply
