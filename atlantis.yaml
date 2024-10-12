@@ -1,17 +1,8 @@
 version: 3
-projects:
-  - dir: resources/terragrunt
-    workspace: default
-    workflow: terraform
-    autoplan:
-      when_modified: ["*.tf", "*.tfvars","*.hcl"]
-      enabled: true
-workflows:
-  terraform:
-    plan:
-      steps:
-        - init
-        - plan
-    apply:
-      steps:
-        - apply
+automerge: true
+autodiscover:
+  mode: auto
+delete_source_branch_on_merge: true
+parallel_plan: true
+parallel_apply: true
+abort_on_execution_order_fail: true
