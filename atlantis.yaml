@@ -1,17 +1,17 @@
-# version: 3
-# projects:
-#   - dir: resources/terragrunt
-#     workspace: default
-#     workflow: terraform
-#     autoplan:
-#       when_modified: ["*.tf", "*.tfvars","*.hcl"]
-#       enabled: true
-# workflows:
-#   terraform:
-#     plan:
-#       steps:
-#         - init
-#         - plan
-#     apply:
-#       steps:
-#         - apply
+version: 3
+projects:
+  - dir: resources/terragrunt
+    workspace: default
+    workflow: terraform
+    autoplan:
+      when_modified: ["*.tf", "*.tfvars","*.hcl"]
+      enabled: true
+workflows:
+  terraform:
+    plan:
+      steps:
+        - init
+        - plan
+    apply:
+      steps:
+        - apply
