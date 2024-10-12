@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  atlantis:
+    image: runatlantis/atlantis
+    container_name: atlantis
+    ports:
+      - "4141:4141"  # Atlantis listens on port 4141
+    environment:
+      ATLANTIS_GH_USER: "argadepp"  # Atlantis GitHub user
+      ATLANTIS_GH_TOKEN: ""    # GitHub token for authentication
+      ATLANTIS_REPO_WHITELIST: "github.com/argadepp/ansible-work"  # Whitelist your repo
+    volumes:
+      - ./atlantis-data:/var/lib/atlantis  # Persist Atlantis data
+    restart: unless-stopped

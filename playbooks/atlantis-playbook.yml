@@ -1,0 +1,64 @@
+---
+- hosts: all
+  become: true
+  vars:
+    atlantis_version: "0.19.5"  # Specify the Atlantis version
+    github_user: "argadepp"  # Replace with your GitHub username
+    github_token: ""    # Replace with your GitHub token
+    repo_whitelist: "github.com/argadepp/ansible-work"  # Replace with your repo
+
+    tasks:
+      - name: Install required packages
+        apt:
+          name: "{{ item }}"
+          state: present
+          update_cache: true
+        with_items:
+          - docker.io
+          - docker-compose
+          - git
+  
+      - name: Start Docker service
+        service:
+          name: docker
+          state: started
+          enabled: true
+  
+      - name: Create Docker Compose directory for Atlantis
+        file:
+          path: /opt/atlantis
+          state: directory
+          mode: '0755'
+  
+      - name: Copy Docker Compose file
+        copy:
+          dest: /opt/atlantis/docker-compose.yml
+          content: |
+            version: '3.8'
+            services:
+              atlantis:
+                image: runatlantis/atlantis:{{ atlantis_version }}
+                container_name: atlantis
+                ports:
+                  - "4141:4141"
+                environment:
+                  ATLANTIS_GH_USER: "{{ github_user }}"
+                  ATLANTIS_GH_TOKEN: "{{ github_token }}"
+                  ATLANTIS_REPO_WHITELIST: "{{ repo_whitelist }}"
+                volumes:
+                  - atlantis-data:/var/lib/atlantis
+                restart: unless-stopped
+            volumes:
+              atlantis-data:
+        
+      - name: Set permissions for Docker Compose file
+        file:
+          path: /opt/atlantis/docker-compose.yml
+          mode: '0644'
+  
+      - name: Start Atlantis using Docker Compose
+        shell: |
+          cd /opt/atlantis
+          docker-compose up -d
+        args:
+          creates: /opt/atlantis/docker-compose.yml

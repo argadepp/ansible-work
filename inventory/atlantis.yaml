@@ -1,0 +1,12 @@
+---
+plugin: aws_ec2
+regions:
+  - ap-south-1  # Your region
+
+hostnames:
+  - instance-id  # Use the Name tag for the hostname
+
+filters:
+  tag:Name: atlantis-server
+strict: False  # Allow inventory to proceed even if no hosts are found
+debug: True    
