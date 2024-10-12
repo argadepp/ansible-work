@@ -1,17 +1,7 @@
 version: 3
 projects:
   - name: terragrunt-project
-    dir: resources/terragrunt               # If terragrunt.hcl is in the root
-    workflow: terragrunt # Custom workflow defined below
+    dir: resources/terragrunt
     autoplan:
       when_modified: ["**/*.hcl", "**/*.tf"]
       enabled: true
-
-# workflows:
-#   terragrunt:
-#     plan:
-#       steps:
-#         - run: terragrunt plan
-#     apply:
-#       steps:
-#         - run: terragrunt apply
