@@ -7,11 +7,11 @@ projects:
       when_modified: ["**/*.hcl", "**/*.tf"]
       enabled: true
 
-workflows:
-  terragrunt:
-    plan:
-      steps:
-        - run: terragrunt plan
-    apply:
-      steps:
-        - run: terragrunt apply
+# workflows:
+#   terragrunt:
+#     plan:
+#       steps:
+#         - run: terragrunt plan
+#     apply:
+#       steps:
+#         - run: terragrunt apply
