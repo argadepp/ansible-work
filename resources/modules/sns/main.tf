@@ -5,6 +5,11 @@ resource "aws_sns_topic" "ami_notifications" {
   name = "ami-notifications-topic"
 }
 
+resource "archive_file" "bottlerocketzip" {
+  type = "zip"
+  source_file = "bottlerocket.py"
+  output_path = "bottlerocket.zip"
+}
 variable "email_subscription" {
   type = list(string)
   default = ["argadepp@gmail.com" , "vishalbobade9376@gmail.com"]
@@ -73,7 +78,7 @@ resource "aws_iam_role_policy_attachment" "lambda_sns_publish_policy_attach" {
 
 # Lambda function to fetch AMI details and publish to SNS
 resource "aws_lambda_function" "fetch_ami_and_notify" {
-  filename         = "./bottlerocket.zip"# Path to your packaged Lambda function code
+  filename         = archive_file.bottlerocketzip.output_path# Path to your packaged Lambda function code
   function_name    = "fetch-ami-details-and-notify"
   role             = aws_iam_role.lambda_iam_role.arn
   handler          = "bottlerocket.lambda_handler"
