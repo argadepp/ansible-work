@@ -7,8 +7,8 @@ terraform {
 }
 
 inputs = {
-  instance_type   = "t2.medium"
-  name            = "master-server"
+  instance_type   = "t2.micro"
+  name            = "my-master-server"
   ami             = "ami-0c2af51e265bd5e0e"
   filepath        = "/home/pratik/.ssh/salarypay"
   keyname         = "salarypay"
