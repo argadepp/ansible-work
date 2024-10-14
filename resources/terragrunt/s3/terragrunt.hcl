@@ -1,5 +1,5 @@
 terraform {
-  source = "${get_repo_root()}/resources/modules/s3"
+  source = "git::https://github.com/argadepp/ansible-work.git?ref=test3"
 }
 
 inputs = {
