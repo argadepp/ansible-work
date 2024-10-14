@@ -1,7 +1,18 @@
-version: 3
+automerge: true
+parallel_apply: true
+parallel_plan: true
 projects:
-  - name: terragrunt-project
-    dir: resources/terragrunt
-    autoplan:
-      when_modified: ["**/*.hcl", "**/*.tf"]
+  - autoplan:
       enabled: true
+      when_modified:
+        - '*.hcl'
+        - '*.tf*'
+        - 'files'
+    dir: resources/terragrunt
+  - autoplan:
+      enabled: true
+      when_modified:
+        - '*.hcl'
+        - '*.tf*'
+        - 'files'
+    dir: resources/terragrunt
