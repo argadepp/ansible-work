@@ -1,13 +1,12 @@
 dependency "iam_role" {
   config_path = "${get_repo_root()}/resources/terragrunt/ssm_role"
 }
-
 terraform {
   source = "${get_repo_root()}/resources/modules/ec2"
 }
 
 inputs = {
-  instance_type   = "t2.medium"
+  instance_type   = "t2.small"
   name            = "master-server"
   ami             = "ami-0c2af51e265bd5e0e"
   filepath        = "/home/pratik/.ssh/salarypay"
