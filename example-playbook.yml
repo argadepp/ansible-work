@@ -1,0 +1,35 @@
+---
+# Example Playbook: User Management with 2FA
+# This demonstrates how to use the roles from this collection
+
+- name: Setup users and 2FA authentication
+  hosts: all
+  become: yes
+  
+  vars:
+    # List of users to create
+    users:
+      - pratik
+      - john
+      - alice
+    
+    # Enable 2FA (set to false for testing without 2FA)
+    pam_otp_enabled: false
+    
+    # Users who should have 2FA enabled
+    otp_users: []
+      # - pratik
+      # - john
+  
+  vars_files:
+    # Vault-encrypted file containing user passwords
+    # Create this file with: ansible-vault create group_vars/my_vault.yaml
+    - group_vars/my_vault.yaml
+  
+  roles:
+    # Create users first
+    - users
+    
+    # Then configure 2FA (only if enabled)
+    - 2fa-auth
+

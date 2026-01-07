@@ -1,0 +1,6 @@
+- name: Backup sshd PAM config
+  copy:
+    src: /etc/pam.d/sshd
+    dest: /etc/pam.d/sshd.bak
+    remote_src: yes
+    force: no

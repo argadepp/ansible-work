@@ -1,0 +1,3 @@
+pam_otp_enabled: false          # SAFE TOGGLE (enable only after testing)
+pam_otp_package: libpam-google-authenticator
+pam_otp_users_group: otpusers  # Only users in this group require OTP

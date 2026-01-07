@@ -1,0 +1,74 @@
+- name: Ensure user home directories exist
+  file:
+    path: "/home/{{ item }}"
+    state: directory
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: '0755'
+  loop: "{{ otp_users | default([]) | list }}"
+  when: 
+    - pam_otp_enabled
+    - otp_users is defined
+    - otp_users | default([]) | list | length > 0
+
+- name: Check if google-authenticator is already configured for users
+  stat:
+    path: "/home/{{ item }}/.google_authenticator"
+  register: gauth_config
+  loop: "{{ otp_users | default([]) | list }}"
+  when: 
+    - pam_otp_enabled
+    - otp_users is defined
+    - otp_users | default([]) | list | length > 0
+  changed_when: false
+
+- name: Initialize google-authenticator for users (non-interactive)
+  command: >
+    google-authenticator
+    --time-based
+    --disallow-reuse
+    --force
+    --rate-limit=3
+    --rate-time=30
+    --window-size=3
+    --no-confirm
+  args:
+    creates: "/home/{{ item.item }}/.google_authenticator"
+  loop: "{{ otp_users | default([]) | list }}"
+  loop_control:
+    label: "{{ item }}"
+  when: 
+    - pam_otp_enabled
+    - otp_users is defined
+    - otp_users | default([]) | list | length > 0
+    - not (gauth_config.results | selectattr('item', 'equalto', item) | map(attribute='stat.exists') | list | first | default(false))
+  become_user: "{{ item }}"
+  no_log: true
+  register: gauth_init
+
+- name: Display setup instructions for users
+  debug:
+    msg: |
+      ============================================
+      Google Authenticator setup for user: {{ item }}
+      ============================================
+      Google Authenticator has been initialized.
+      
+      To complete setup, user '{{ item }}' must:
+      1. SSH into the server
+      2. Run: cat ~/.google_authenticator
+      3. Scan the QR code or enter the secret key manually
+      4. Save the emergency scratch codes
+      
+      IMPORTANT: Users must configure their authenticator app
+      before 2FA will work for SSH login.
+      ============================================
+  loop: "{{ otp_users | default([]) | list }}"
+  when: 
+    - pam_otp_enabled
+    - otp_users is defined
+    - otp_users | default([]) | list | length > 0
+    - gauth_init is defined
+    - gauth_init.results is defined
+    - item in (gauth_init.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list)
+

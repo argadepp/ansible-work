@@ -1,0 +1,17 @@
+- name: Create OTP users group
+  group:
+    name: "{{ pam_otp_users_group }}"
+    state: present
+  when: pam_otp_enabled
+
+- name: Add users to OTP group
+  user:
+    name: "{{ item }}"
+    groups: "{{ pam_otp_users_group }}"
+    append: yes
+  loop: "{{ otp_users | default([]) | list }}"
+  when: 
+    - pam_otp_enabled
+    - otp_users is defined
+    - otp_users | default([]) | list | length > 0
+

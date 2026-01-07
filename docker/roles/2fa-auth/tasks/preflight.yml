@@ -1,0 +1,14 @@
+- name: Ensure running on Linux
+  assert:
+    that:
+      - ansible_os_family in ["Debian", "RedHat"]
+
+- name: Ensure sshd PAM config exists
+  stat:
+    path: /etc/pam.d/sshd
+  register: sshd_pam
+
+- name: Fail if sshd PAM config missing
+  fail:
+    msg: "sshd PAM config missing – aborting for safety"
+  when: not sshd_pam.stat.exists

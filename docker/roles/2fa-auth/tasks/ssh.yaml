@@ -1,0 +1,13 @@
+- name: Enable PAM in SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^UsePAM'
+    line: 'UsePAM yes'
+  notify: restart sshd
+
+- name: Enable challenge response
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^ChallengeResponseAuthentication'
+    line: 'ChallengeResponseAuthentication yes'
+  notify: restart sshd

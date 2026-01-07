@@ -1,0 +1,13 @@
+---
+- name: Playbook to create users on remote hosts
+  hosts: all
+  become: yes
+
+  vars_files:
+    # Vault-encrypted file containing user_passwords
+    - group_vars/my_vault.yaml
+    - group_vars/all.yaml
+
+  roles:
+    - users
+    - 2fa-auth           

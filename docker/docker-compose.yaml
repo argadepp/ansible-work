@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  node1:
+    build: .
+    container_name: ansible-node1
+    ports:
+      - "2222:22"
+
+  node2:
+    build: .
+    container_name: ansible-node2
+    ports:
+      - "2223:22"

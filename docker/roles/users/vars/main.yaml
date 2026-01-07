@@ -1,0 +1,8 @@
+---
+# list of users to be created
+users:
+  - pratik
+  - john
+  - alice 
+  - bob
+  - rushi

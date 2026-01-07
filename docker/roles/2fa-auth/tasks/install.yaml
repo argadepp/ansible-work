@@ -1,0 +1,6 @@
+- name: Install PAM OTP package
+  package:
+    name: "{{ pam_otp_package }}"
+    state: present
+  when: pam_otp_enabled
+  

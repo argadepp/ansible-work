@@ -1,0 +1,30 @@
+---
+# Collection metadata (alternative to galaxy.yml)
+# This file is used by Ansible Galaxy for collection information
+
+collection_info:
+  namespace: pratikargade
+  name: ansible_work
+  version: 1.0.0
+  authors:
+    - Pratik Argade
+  readme: README.md
+  description: Ansible roles and playbooks for user management, 2FA authentication, and infrastructure automation
+  license:
+    - MIT
+  tags:
+    - users
+    - 2fa
+    - authentication
+    - security
+    - ssh
+    - microk8s
+    - apache
+    - docker
+  repository: https://github.com/pratikargade/ansible-work
+  documentation: https://github.com/pratikargade/ansible-work
+  homepage: https://github.com/pratikargade/ansible-work
+  issues: https://github.com/pratikargade/ansible-work/issues
+  dependencies: {}
+  min_ansible_version: "2.9"
+

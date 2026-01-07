@@ -1,0 +1,14 @@
+# Enable 2FA/OTP authentication
+# Set to true to enable Google Authenticator for SSH
+pam_otp_enabled: true
+
+# List of users who should have 2FA enabled
+# Users will be added to the otpusers group and google-authenticator will be initialized
+# Uncomment and add users when ready to enable 2FA
+otp_users: 
+  # Example (uncomment to enable):
+  - pratik
+  # - john
+  # - alice 
+  # - bob
+  # - rushi

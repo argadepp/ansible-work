@@ -1,15 +1,60 @@
-# Local .terraform directories
-**/.terraform/*
-.terraform*
-# .tfstate files
+# Ansible
+*.retry
+.ansible/
+*.log
+
+# Vault files (unencrypted)
+!**/my_vault.yaml
+*.vault
+*.vault.yml
+*.vault.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Terraform
 *.tfstate
 *.tfstate.*
-*.tfvars
-.terragrunt-cache*
-# Crash log files
-crash.log
+.terraform/
+.terraform.lock.hcl
 
-override.tf
-override.tf.json
-*_override.tf
-*_override.tf.json
+# Terragrunt
+.terragrunt-cache/
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+
+# Secrets
+secrets/
+*.pem
+*.key
+*.crt
+
+# Compiled files
+*.zip
+*.tar.gz
+
+# Local inventory overrides
+inventory/local/
+hosts.local

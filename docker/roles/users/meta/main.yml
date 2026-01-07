@@ -1,0 +1,32 @@
+---
+galaxy_info:
+  author: Pratik Argade
+  description: Create and manage users with password authentication
+  company: 
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - all
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+        - all
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+        - all
+  galaxy_tags:
+    - users
+    - user-management
+    - authentication
+    - security
+    - system
+
+dependencies: []
+

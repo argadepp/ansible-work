@@ -1,0 +1,14 @@
+# PAM configuration for SSH
+
+{% if pam_otp_enabled %}
+# OTP authentication (checked first for users in otpusers group)
+auth required pam_google_authenticator.so \
+    usergroup={{ pam_otp_users_group }} \
+    nullok
+{% endif %}
+
+# Password authentication
+@include common-auth
+@include common-account
+@include common-session
+@include common-password

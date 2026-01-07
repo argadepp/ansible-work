@@ -1,0 +1,18 @@
+# create users from the users variable
+- name: Create Users from list
+  user:
+    name: "{{ item }}"
+    state: present
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+  loop: "{{ users }}"
+
+# set passwords for the users from the user_passwords variable in the vault file
+- name: Set passwords for users
+  user:
+    name: "{{ item.key }}"
+    password: "{{ item.value | password_hash('sha512') }}"
+  loop: "{{ user_passwords | dict2items }}"
+  no_log: true
+  notify: Notify user creation

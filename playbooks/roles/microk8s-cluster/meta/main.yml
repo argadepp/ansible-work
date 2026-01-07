@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Pratik Argade
+  description: Install and configure MicroK8s Kubernetes cluster
+  company: 
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+        - all
+  galaxy_tags:
+    - kubernetes
+    - microk8s
+    - k8s
+    - container
+    - orchestration
+
+dependencies: []
+

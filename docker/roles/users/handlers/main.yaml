@@ -1,0 +1,5 @@
+# handler for user creation
+- name: Notify user creation
+  debug:
+    msg: "User {{ item }} has been created."
+  loop: "{{ users }}"
