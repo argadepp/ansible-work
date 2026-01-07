@@ -1,0 +1,11 @@
+---
+# variables file for nginx
+nginx_version: "1.20.0"
+nginx_package: "nginx"
+nginx_service: "nginx"
+nginx_config_file: "/etc/nginx/nginx.conf"
+nginx_config_dir: "/etc/nginx/conf.d"
+nginx_log_dir: "/var/log/nginx"
+nginx_pid_file: "/var/run/nginx.pid"
+nginx_user: "nginx"
+nginx_group: "nginx"

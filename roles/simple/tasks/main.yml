@@ -1,0 +1,12 @@
+---
+# install curl package
+- name: Install curl package
+  apt:
+    name: curl
+    state: present
+
+# install wget package
+- name: Install wget package
+  apt:
+    name: wget
+    state: present
