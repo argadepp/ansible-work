@@ -32,8 +32,8 @@ Create a `requirements.yml` file in your project:
 ```yaml
 ---
 collections:
-  - name: pratikargade.ansible_work
-    source: https://github.com/pratikargade/ansible-work.git
+  - name: argadepp.ansible_work
+    source: https://github.com/argadepp/ansible-work.git
     type: git
     version: main
 ```
