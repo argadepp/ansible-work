@@ -1,0 +1,22 @@
+- name: Ensure docker python SDK is installed
+  pip:
+    name:
+      - docker
+      - requests
+  become: true
+
+- name: Run AKHQ
+  docker_container:
+    name: akhq
+    image: tchiotludo/akhq
+    state: started
+    restart_policy: always
+    ports:
+      - "8080:8080"
+    env:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            kafka:
+              properties:
+                bootstrap.servers: "kafka1:9092,kafka2:9092,kafka3:9092"

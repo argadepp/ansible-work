@@ -1,0 +1,13 @@
+[Unit]
+Description=Apache Kafka
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties
+Restart=always
+User=ansible
+LimitNOFILE=100000
+
+[Install]
+WantedBy=multi-user.target

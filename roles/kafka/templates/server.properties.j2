@@ -1,0 +1,10 @@
+broker.id={{ broker_id }}
+listeners=PLAINTEXT://{{ inventory_hostname }}:9092
+advertised.listeners=PLAINTEXT://{{ inventory_hostname }}:9092
+
+log.dirs=/tmp/kafka-logs
+zookeeper.connect=zookeeper:2181
+
+num.network.threads=3
+num.io.threads=8
+offsets.topic.replication.factor=3

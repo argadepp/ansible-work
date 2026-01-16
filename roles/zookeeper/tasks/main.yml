@@ -1,0 +1,22 @@
+- name: Download Zookeeper
+  get_url:
+    url: https://downloads.apache.org/zookeeper/zookeeper-3.9.1/apache-zookeeper-3.9.1-bin.tar.gz
+    dest: /opt/zookeeper.tar.gz
+
+- name: Extract Zookeeper
+  unarchive:
+    src: /opt/zookeeper.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: Configure Zookeeper
+  copy:
+    dest: /opt/apache-zookeeper-3.9.1-bin/conf/zoo.cfg
+    content: |
+      tickTime=2000
+      dataDir=/tmp/zookeeper
+      clientPort=2181
+
+- name: Start Zookeeper
+  shell: |
+    nohup /opt/apache-zookeeper-3.9.1-bin/bin/zkServer.sh start

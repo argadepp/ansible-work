@@ -1,0 +1,50 @@
+- name: Download Kafka
+  get_url:
+    url: https://downloads.apache.org/kafka/{{ kafka_version }}/kafka_{{ kafka_scala_version }}-{{ kafka_version }}.tgz
+    dest: /tmp/kafka.tgz
+
+- name: Extract Kafka
+  unarchive:
+    src: /tmp/kafka.tgz
+    dest: /opt/
+    remote_src: yes
+
+- name: Symlink Kafka
+  file:
+    src: /opt/kafka_{{ kafka_scala_version }}-{{ kafka_version }}
+    dest: "{{ kafka_install_dir }}"
+    state: link
+
+- name: Configure Kafka (KRaft)
+  template:
+    src: server.properties.j2
+    dest: "{{ kafka_install_dir }}/config/server.properties"
+
+- name: Create systemd service
+  template:
+    src: kafka.service.j2
+    dest: /etc/systemd/system/kafka.service
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Format KRaft storage (idempotent)
+  command: >
+    {{ kafka_install_dir }}/bin/kafka-storage.sh format
+    --config {{ kafka_install_dir }}/config/server.properties
+    --cluster-id {{ cluster_id }}
+    --ignore-formatted
+  args:
+    creates: /var/lib/kafka/.kraft-formatted
+
+- name: Create KRaft marker file
+  file:
+    path: /var/lib/kafka/.kraft-formatted
+    state: touch
+
+- name: Start Kafka
+  systemd:
+    name: kafka
+    enabled: yes
+    state: started
